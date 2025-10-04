@@ -1,0 +1,281 @@
+{% extends "base.html" %}
+
+{% block title %}Become a Local Guide - LocalLink{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-custom border-radius-custom">
+                <div class="card-header text-center py-4">
+                    <h3 class="mb-2">
+                        <i class="fas fa-map-marker-alt text-success me-2"></i>Become a Local Guide
+                    </h3>
+                    <p class="mb-0 text-muted">Help fellow Indian students adapt and save money in your city</p>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" action="{{ url_for('become_local') }}" class="needs-validation" novalidate>
+                        <!-- Location Information -->
+                        <div class="mb-4">
+                            <h5 class="fw-bold mb-3">
+                                <i class="fas fa-map-marker-alt text-primary me-2"></i>Location Information
+                            </h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="city" class="form-label">City *</label>
+                                    <input type="text" class="form-control" id="city" name="city" required placeholder="e.g., Prague">
+                                    <div class="invalid-feedback">
+                                        Please provide your city.
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="country" class="form-label">Country *</label>
+                                    <input type="text" class="form-control" id="country" name="country" required placeholder="e.g., Czech Republic">
+                                    <div class="invalid-feedback">
+                                        Please provide your country.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Verification Information -->
+                        <div class="mb-4">
+                            <h5 class="fw-bold mb-3">
+                                <i class="fas fa-shield-alt text-success me-2"></i>Verification Information
+                            </h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="university" class="form-label">University/College (Optional)</label>
+                                    <input type="text" class="form-control" id="university" name="university" placeholder="e.g., Charles University">
+                                    <div class="form-text">
+                                        <small>If you're a student, enter your university name</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="employment" class="form-label">Employer/Company (Optional)</label>
+                                    <input type="text" class="form-control" id="employment" name="employment" placeholder="e.g., Google, Microsoft">
+                                    <div class="form-text">
+                                        <small>If you're working, enter your company name</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Matching Information -->
+                        <div class="mb-4">
+                            <h5 class="fw-bold mb-3">
+                                <i class="fas fa-users text-info me-2"></i>Matching Information
+                            </h5>
+                            <div class="alert alert-info mb-3">
+                                <small><i class="fas fa-info-circle me-1"></i>This information helps us match you with students who share similar backgrounds and needs.</small>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="home_country" class="form-label">Your Home Country</label>
+                                    <select class="form-select" id="home_country" name="home_country">
+                                        <option value="">Select your home country</option>
+                                        <option value="India">India</option>
+                                        <option value="China">China</option>
+                                        <option value="Pakistan">Pakistan</option>
+                                        <option value="Bangladesh">Bangladesh</option>
+                                        <option value="Sri Lanka">Sri Lanka</option>
+                                        <option value="Nepal">Nepal</option>
+                                        <option value="Thailand">Thailand</option>
+                                        <option value="Singapore">Singapore</option>
+                                        <option value="Japan">Japan</option>
+                                        <option value="South Korea">South Korea</option>
+                                        <option value="Germany">Germany</option>
+                                        <option value="France">France</option>
+                                        <option value="UK">United Kingdom</option>
+                                        <option value="USA">United States</option>
+                                        <option value="Canada">Canada</option>
+                                        <option value="Australia">Australia</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="field_of_study" class="form-label">Field of Study/Expertise</label>
+                                    <select class="form-select" id="field_of_study" name="field_of_study">
+                                        <option value="">Select your field</option>
+                                        <option value="Computer Science">Computer Science</option>
+                                        <option value="Engineering">Engineering</option>
+                                        <option value="Business">Business</option>
+                                        <option value="Medicine">Medicine</option>
+                                        <option value="Law">Law</option>
+                                        <option value="Arts">Arts & Humanities</option>
+                                        <option value="Science">Natural Sciences</option>
+                                        <option value="Social Sciences">Social Sciences</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="languages" class="form-label">Languages You Speak</label>
+                                    <input type="text" class="form-control" id="languages" name="languages" 
+                                           placeholder="e.g., English, Hindi, German, French">
+                                    <div class="form-text">
+                                        <small>Comma-separated list of languages</small>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label for="cultural_background" class="form-label">Cultural Background & Experience</label>
+                                    <textarea class="form-control" id="cultural_background" name="cultural_background" rows="3" 
+                                              placeholder="Tell us about your cultural background and how it helps you understand students' needs..."></textarea>
+                                    <div class="form-text">
+                                        <small>Describe your cultural background and how it helps you relate to international students</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- About You -->
+                        <div class="mb-4">
+                            <h5 class="fw-bold mb-3">
+                                <i class="fas fa-user text-info me-2"></i>About You
+                            </h5>
+                            <div class="mb-3">
+                                <label for="bio" class="form-label">Bio *</label>
+                                <textarea class="form-control" id="bio" name="bio" rows="4" required placeholder="Tell students about yourself, your experience in this city, and how you can help them..."></textarea>
+                                <div class="invalid-feedback">
+                                    Please provide a bio.
+                                </div>
+                                <div class="form-text">
+                                    <small>Describe your background, experience, and what makes you a great local guide.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pricing -->
+                        <div class="mb-4">
+                            <h5 class="fw-bold mb-3">
+                                <i class="fas fa-dollar-sign text-warning me-2"></i>Pricing
+                            </h5>
+                            <div class="row justify-content-center">
+                                <div class="col-lg-8">
+                                    <div class="pricing-card p-4 border rounded-4 bg-gradient-primary text-white shadow-lg">
+                                        <div class="text-center mb-4">
+                                            <div class="pricing-icon mb-3">
+                                                <i class="fas fa-coins fa-3x text-warning"></i>
+                                            </div>
+                                            <h4 class="fw-bold mb-2">Fixed Rate: $2/hour</h4>
+                                            <p class="mb-0 opacity-75">Standard pricing for all local guides</p>
+                                        </div>
+                                        
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <div class="pricing-detail p-3 bg-white bg-opacity-10 rounded-3">
+                                                    <div class="d-flex align-items-center mb-2">
+                                                        <i class="fas fa-user-graduate text-warning me-2"></i>
+                                                        <span class="fw-semibold">Student Payment</span>
+                                                    </div>
+                                                    <div class="h5 mb-0">$2 for 2-hour sessions</div>
+                                                    <small class="opacity-75">$1 per hour for students</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="pricing-detail p-3 bg-white bg-opacity-10 rounded-3">
+                                                    <div class="d-flex align-items-center mb-2">
+                                                        <i class="fas fa-hand-holding-usd text-success me-2"></i>
+                                                        <span class="fw-semibold">Your Earnings</span>
+                                                    </div>
+                                                    <div class="h5 mb-0">$1.90/hour</div>
+                                                    <small class="opacity-75">After 5% platform fee</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="text-center mt-4">
+                                            <div class="badge bg-warning text-dark px-3 py-2">
+                                                <i class="fas fa-shield-alt me-1"></i>
+                                                Transparent & Fair Pricing
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Hidden input for form submission -->
+                            <input type="hidden" name="hourly_rate" value="2">
+                        </div>
+
+                        <!-- Verification Requirements -->
+                        <div class="mb-4">
+                            <div class="alert alert-info">
+                                <h6 class="fw-bold mb-2">
+                                    <i class="fas fa-info-circle me-2"></i>Verification Requirements
+                                </h6>
+                                <p class="mb-2">To become a verified local guide, you'll need to complete:</p>
+                                <ul class="mb-0 small">
+                                    <li>Identity verification (Passport/Aadhaar + selfie)</li>
+                                    <li>University/Employment verification</li>
+                                    <li>Proof of residence</li>
+                                    <li>Introductory video verification</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Terms and Conditions -->
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="terms" required>
+                                <label class="form-check-label" for="terms">
+                                    I agree to the <a href="#" class="text-decoration-none">Local Guide Terms of Service</a> and understand that I need to complete verification to start receiving bookings.
+                                </label>
+                                <div class="invalid-feedback">
+                                    You must agree to the terms and conditions.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-user-plus me-2"></i>Create Local Guide Profile
+                            </button>
+                            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Auto-detect location (commented out since button doesn't exist)
+    // document.getElementById('get-location').addEventListener('click', function() {
+    //     if (navigator.geolocation) {
+    //         navigator.geolocation.getCurrentPosition(
+    //             function(position) {
+    //                 // You would typically reverse geocode this to get city name
+    //                 console.log('Location detected:', position.coords.latitude, position.coords.longitude);
+    //                 
+    //                 // Show success message
+    //                 this.innerHTML = '<i class="fas fa-check"></i> Location Detected';
+    //                 this.classList.add('btn-success');
+    //             },
+    //             function(error) {
+    //                 console.error('Error getting location:', error);
+    //                 alert('Unable to get your location. Please enter manually.');
+    //             }
+    //         );
+    //     } else {
+    //         alert('Geolocation is not supported by this browser.');
+    //     }
+    // });
+
+    // Pricing is now displayed in the UI card, no JavaScript needed
+
+    // Form validation
+    const form = document.querySelector('.needs-validation');
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}Smart Mentor Matching - LocalLink{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-custom border-radius-custom">
+                <div class="card-header text-center py-4">
+                    <h3 class="mb-2">
+                        <i class="fas fa-brain text-primary me-2"></i>Smart Mentor Matching
+                    </h3>
+                    <p class="mb-0 text-muted">Help us find your perfect local guide match</p>
+                </div>
+                <div class="card-body p-4">
+                    <div class="alert alert-info mb-4">
+                        <h6 class="fw-bold mb-2">
+                            <i class="fas fa-info-circle me-2"></i>How Smart Matching Works
+                        </h6>
+                        <p class="mb-0">Our AI algorithm matches you with local guides based on cultural background, field of study, and language preferences to ensure the best possible mentorship experience.</p>
+                    </div>
+
+                    <form method="POST" class="needs-validation" novalidate>
+                        <!-- Home Country -->
+                        <div class="mb-4">
+                            <h5 class="fw-bold mb-3">
+                                <i class="fas fa-flag text-success me-2"></i>Cultural Background
+                            </h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="home_country" class="form-label">Your Home Country *</label>
+                                    <select class="form-select" id="home_country" name="home_country" required>
+                                        <option value="">Select your home country</option>
+                                        <option value="India">India</option>
+                                        <option value="China">China</option>
+                                        <option value="Pakistan">Pakistan</option>
+                                        <option value="Bangladesh">Bangladesh</option>
+                                        <option value="Sri Lanka">Sri Lanka</option>
+                                        <option value="Nepal">Nepal</option>
+                                        <option value="Thailand">Thailand</option>
+                                        <option value="Singapore">Singapore</option>
+                                        <option value="Japan">Japan</option>
+                                        <option value="South Korea">South Korea</option>
+                                        <option value="Germany">Germany</option>
+                                        <option value="France">France</option>
+                                        <option value="UK">United Kingdom</option>
+                                        <option value="USA">United States</option>
+                                        <option value="Canada">Canada</option>
+                                        <option value="Australia">Australia</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Please select your home country.
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="cultural_adaptation_needs" class="form-label">Cultural Adaptation Needs</label>
+                                    <select class="form-select" id="cultural_adaptation_needs" name="cultural_adaptation_needs">
+                                        <option value="">Select your needs</option>
+                                        <option value="housing">Finding Housing</option>
+                                        <option value="transport">Public Transport</option>
+                                        <option value="banking">Banking & Finance</option>
+                                        <option value="shopping">Shopping & Groceries</option>
+                                        <option value="social">Social Integration</option>
+                                        <option value="bureaucracy">Government Procedures</option>
+                                        <option value="all">All of the above</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Academic Information -->
+                        <div class="mb-4">
+                            <h5 class="fw-bold mb-3">
+                                <i class="fas fa-graduation-cap text-info me-2"></i>Academic Information
+                            </h5>
+                            <div class="mb-3">
+                                <label for="field_of_study" class="form-label">Field of Study</label>
+                                <select class="form-select" id="field_of_study" name="field_of_study">
+                                    <option value="">Select your field</option>
+                                    <option value="Computer Science">Computer Science</option>
+                                    <option value="Engineering">Engineering</option>
+                                    <option value="Business">Business</option>
+                                    <option value="Medicine">Medicine</option>
+                                    <option value="Law">Law</option>
+                                    <option value="Arts">Arts & Humanities</option>
+                                    <option value="Science">Natural Sciences</option>
+                                    <option value="Social Sciences">Social Sciences</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Language Preferences -->
+                        <div class="mb-4">
+                            <h5 class="fw-bold mb-3">
+                                <i class="fas fa-language text-warning me-2"></i>Language Preferences
+                            </h5>
+                            <div class="mb-3">
+                                <label for="languages" class="form-label">Languages You Speak (comma-separated)</label>
+                                <input type="text" class="form-control" id="languages" name="languages" 
+                                       placeholder="e.g., English, Hindi, German, French">
+                                <div class="form-text">
+                                    <small>List all languages you're comfortable speaking</small>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Session Preferences -->
+                        <div class="mb-4">
+                            <h5 class="fw-bold mb-3">
+                                <i class="fas fa-calendar-alt text-primary me-2"></i>Session Preferences
+                            </h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="preferred_session_types" class="form-label">Preferred Session Types</label>
+                                    <select class="form-select" id="preferred_session_types" name="preferred_session_types">
+                                        <option value="">Select session types</option>
+                                        <option value="housing">Housing Assistance</option>
+                                        <option value="transport">Transport Guidance</option>
+                                        <option value="cultural">Cultural Integration</option>
+                                        <option value="academic">Academic Support</option>
+                                        <option value="shopping">Shopping & Daily Life</option>
+                                        <option value="all">All Types</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="budget_range" class="form-label">Budget Range</label>
+                                    <select class="form-select" id="budget_range" name="budget_range">
+                                        <option value="">Select budget range</option>
+                                        <option value="low">$10-20 per session</option>
+                                        <option value="medium">$20-50 per session</option>
+                                        <option value="high">$50+ per session</option>
+                                        <option value="flexible">Flexible</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-search me-2"></i>Find My Perfect Matches
+                            </button>
+                            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Form validation
+    const form = document.querySelector('.needs-validation');
+    form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+    });
+
+    // Dynamic form interactions
+    document.getElementById('home_country').addEventListener('change', function() {
+        const country = this.value;
+        const adaptationNeeds = document.getElementById('cultural_adaptation_needs');
+        
+        // Show relevant adaptation needs based on country
+        if (country === 'India' || country === 'Pakistan' || country === 'Bangladesh') {
+            adaptationNeeds.innerHTML = `
+                <option value="">Select your needs</option>
+                <option value="housing">Finding Housing</option>
+                <option value="transport">Public Transport</option>
+                <option value="banking">Banking & Finance</option>
+                <option value="shopping">Shopping & Groceries</option>
+                <option value="social">Social Integration</option>
+                <option value="bureaucracy">Government Procedures</option>
+                <option value="all">All of the above</option>
+            `;
+        }
+    });
+</script>
+{% endblock %}
+

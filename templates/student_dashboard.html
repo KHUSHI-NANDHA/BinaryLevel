@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard - LocalLink{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="dashboard-card">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2 class="mb-2">
+                            <i class="fas fa-user-graduate text-primary me-2"></i>
+                            Welcome back, {{ session.full_name }}!
+                        </h2>
+                        <p class="text-muted mb-0">Ready to save money and adapt faster in your new city?</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <a href="{{ url_for('find_locals') }}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-search me-2"></i>Find Local Guides
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="dashboard-stat">
+                <i class="fas fa-handshake text-success"></i>
+                <h3>{{ sessions_count }}</h3>
+                <p class="text-muted">Sessions Booked</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="dashboard-stat">
+                <i class="fas fa-dollar-sign text-warning"></i>
+                <h3>${{ "%.0f"|format(total_spent) }}</h3>
+                <p class="text-muted">Total Spent</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="dashboard-stat">
+                <i class="fas fa-star text-info"></i>
+                <h3>{{ reviews_count }}</h3>
+                <p class="text-muted">Reviews Given</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="dashboard-stat">
+                <i class="fas fa-clock text-secondary"></i>
+                <h3>{{ hours_learning }}</h3>
+                <p class="text-muted">Hours Learning</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Recent Sessions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-history me-2"></i>Recent Sessions
+                    </h5>
+                    <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+                </div>
+                <div class="card-body">
+                    <div class="text-center py-5">
+                        <i class="fas fa-calendar-times text-muted display-4 mb-3"></i>
+                        <h5 class="text-muted">No sessions yet</h5>
+                        <p class="text-muted">Start by finding a local guide in your city!</p>
+                        <a href="{{ url_for('find_locals') }}" class="btn btn-primary">
+                            <i class="fas fa-search me-2"></i>Find Local Guides
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommended Guides -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-star me-2"></i>Recommended Local Guides
+                    </h5>
+                    <a href="{{ url_for('find_locals') }}" class="btn btn-sm btn-outline-primary">View All</a>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="local-card card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="avatar bg-primary text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                            <span class="fw-bold">A</span>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">Arjun Sharma</h6>
+                                            <span class="verified-badge">
+                                                <i class="fas fa-check me-1"></i>Verified
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <p class="text-muted small mb-2">
+                                        <i class="fas fa-map-marker-alt me-1"></i>Prague, Czech Republic
+                                    </p>
+                                    <p class="small mb-3">Experienced guide helping students with housing, transport, and cultural adaptation in Prague.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="price-tag">$2/2 hours</div>
+                                        <div class="text-warning">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <small class="text-muted ms-1">(4.9)</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-transparent">
+                                    <a href="#" class="btn btn-primary btn-sm w-100">Book Session</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="local-card card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="avatar bg-success text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                            <span class="fw-bold">P</span>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">Priya Patel</h6>
+                                            <span class="verified-badge">
+                                                <i class="fas fa-check me-1"></i>Verified
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <p class="text-muted small mb-2">
+                                        <i class="fas fa-map-marker-alt me-1"></i>Budapest, Hungary
+                                    </p>
+                                    <p class="small mb-3">Local expert specializing in student life, affordable shopping, and public transport tips.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="price-tag">$2/2 hours</div>
+                                        <div class="text-warning">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <small class="text-muted ms-1">(4.8)</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-transparent">
+                                    <a href="#" class="btn btn-primary btn-sm w-100">Book Session</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="local-card card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="avatar bg-info text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                            <span class="fw-bold">R</span>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">Rahul Kumar</h6>
+                                            <span class="verified-badge">
+                                                <i class="fas fa-check me-1"></i>Verified
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <p class="text-muted small mb-2">
+                                        <i class="fas fa-map-marker-alt me-1"></i>Warsaw, Poland
+                                    </p>
+                                    <p class="small mb-3">Helping students find affordable housing and navigate Polish bureaucracy with ease.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="price-tag">$2/2 hours</div>
+                                        <div class="text-warning">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <small class="text-muted ms-1">(4.7)</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-transparent">
+                                    <a href="#" class="btn btn-primary btn-sm w-100">Book Session</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tips Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-lightbulb me-2"></i>Money-Saving Tips
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="tip-card p-3 border rounded-3 h-100">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-home text-primary me-2"></i>
+                                    <h6 class="mb-0">Housing</h6>
+                                </div>
+                                <p class="small text-muted mb-0">Look for student housing near universities. Avoid tourist areas for better rates.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="tip-card p-3 border rounded-3 h-100">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-shopping-cart text-success me-2"></i>
+                                    <h6 class="mb-0">Groceries</h6>
+                                </div>
+                                <p class="small text-muted mb-0">Shop at local markets and avoid convenience stores near tourist spots.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="tip-card p-3 border rounded-3 h-100">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-bus text-info me-2"></i>
+                                    <h6 class="mb-0">Transport</h6>
+                                </div>
+                                <p class="small text-muted mb-0">Get monthly passes and use student discounts for public transportation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

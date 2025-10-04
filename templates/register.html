@@ -1,0 +1,341 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up - LocalLink{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-custom border-radius-custom">
+                <div class="card-header text-center py-4">
+                    <h3 class="mb-0">
+                        <i class="fas fa-user-plus me-2"></i>Join LocalLink
+                    </h3>
+                    <p class="mb-0 mt-2 opacity-75">Create your account and start connecting</p>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="full_name" class="form-label">
+                                    <i class="fas fa-user me-1"></i>Full Name
+                                </label>
+                                <input type="text" class="form-control" id="full_name" name="full_name" required>
+                                <div class="invalid-feedback">
+                                    Please provide your full name.
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="username" class="form-label">
+                                    <i class="fas fa-at me-1"></i>Username
+                                </label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                                <div class="invalid-feedback">
+                                    Please provide a username.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">
+                                <i class="fas fa-envelope me-1"></i>Email Address
+                            </label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid email address.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">
+                                <i class="fas fa-phone me-1"></i>Phone Number (Optional)
+                            </label>
+                            <input type="tel" class="form-control" id="phone" name="phone">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">
+                                <i class="fas fa-users me-1"></i>I am a...
+                            </label>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="user_type" id="student" value="student" required>
+                                        <label class="form-check-label w-100 p-3 border rounded-3 text-center" for="student">
+                                            <i class="fas fa-user-graduate display-6 text-primary mb-2"></i>
+                                            <div class="fw-bold">Student</div>
+                                            <small class="text-muted">Looking for local guidance</small>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="user_type" id="local" value="local" required>
+                                        <label class="form-check-label w-100 p-3 border rounded-3 text-center" for="local">
+                                            <i class="fas fa-map-marker-alt display-6 text-success mb-2"></i>
+                                            <div class="fw-bold">Local Guide</div>
+                                            <small class="text-muted">Help students adapt</small>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback">
+                                Please select whether you're a student or local guide.
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password" class="form-label">
+                                <i class="fas fa-lock me-1"></i>Password
+                            </label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="password" name="password" required minlength="8">
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="invalid-feedback">
+                                Password must meet all strength requirements.
+                            </div>
+                            
+                            <!-- Password Strength Indicator -->
+                            <div class="password-strength mt-2">
+                                <div class="password-requirements">
+                                    <div class="requirement" id="req-length">
+                                        <i class="fas fa-times text-danger"></i>
+                                        <span>At least 8 characters</span>
+                                    </div>
+                                    <div class="requirement" id="req-uppercase">
+                                        <i class="fas fa-times text-danger"></i>
+                                        <span>One uppercase letter</span>
+                                    </div>
+                                    <div class="requirement" id="req-lowercase">
+                                        <i class="fas fa-times text-danger"></i>
+                                        <span>One lowercase letter</span>
+                                    </div>
+                                    <div class="requirement" id="req-number">
+                                        <i class="fas fa-times text-danger"></i>
+                                        <span>One number</span>
+                                    </div>
+                                    <div class="requirement" id="req-special">
+                                        <i class="fas fa-times text-danger"></i>
+                                        <span>One special character (!@#$%^&*)</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="strength-meter mt-2">
+                                    <div class="strength-bar">
+                                        <div class="strength-fill" id="strength-fill"></div>
+                                    </div>
+                                    <div class="strength-text" id="strength-text">Enter a password</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ID Verification Section (for Local Guides) -->
+                        <div class="mb-4" id="idVerificationSection" style="display: none;">
+                            <div class="card border-warning">
+                                <div class="card-header bg-warning bg-opacity-10">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-id-card text-warning me-2"></i>ID Verification Required
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <p class="text-muted small mb-3">As a local guide, you need to verify your identity to help students.</p>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Upload ID Document</label>
+                                        <div class="upload-area border rounded p-3 text-center mb-3">
+                                            <i class="fas fa-cloud-upload-alt text-muted display-6 mb-2"></i>
+                                            <p class="text-muted mb-2">Upload your passport, driver's license, or national ID</p>
+                                            <input type="file" class="form-control" name="id_document" accept="image/*,.pdf" id="idDocument">
+                                            <div class="form-text">
+                                                <small>Supported formats: PNG, JPG, JPEG, GIF, BMP, PDF (Max 16MB)</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        <small>Your document will be verified using AI technology for security.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="terms" required>
+                                <label class="form-check-label" for="terms">
+                                    I agree to the <a href="#" class="text-decoration-none">Terms of Service</a> and <a href="#" class="text-decoration-none">Privacy Policy</a>
+                                </label>
+                                <div class="invalid-feedback">
+                                    You must agree to the terms and conditions.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-user-plus me-2"></i>Create Account
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center">
+                        <p class="mb-0">
+                            Already have an account? 
+                            <a href="{{ url_for('login') }}" class="text-decoration-none fw-bold">
+                                Sign in here
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Password strength validation
+    function validatePasswordStrength(password) {
+        const requirements = {
+            length: password.length >= 8,
+            uppercase: /[A-Z]/.test(password),
+            lowercase: /[a-z]/.test(password),
+            number: /\d/.test(password),
+            special: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)
+        };
+        
+        return requirements;
+    }
+    
+    function updatePasswordStrength(password) {
+        const requirements = validatePasswordStrength(password);
+        const strengthFill = document.getElementById('strength-fill');
+        const strengthText = document.getElementById('strength-text');
+        
+        // Update requirement indicators
+        Object.keys(requirements).forEach(req => {
+            const element = document.getElementById(`req-${req}`);
+            const icon = element.querySelector('i');
+            const span = element.querySelector('span');
+            
+            if (requirements[req]) {
+                icon.classList.remove('fa-times', 'text-danger');
+                icon.classList.add('fa-check', 'text-success');
+                span.style.color = '#28a745';
+            } else {
+                icon.classList.remove('fa-check', 'text-success');
+                icon.classList.add('fa-times', 'text-danger');
+                span.style.color = '#dc3545';
+            }
+        });
+        
+        // Calculate strength score
+        const score = Object.values(requirements).filter(Boolean).length;
+        const percentage = (score / 5) * 100;
+        
+        // Update strength bar
+        strengthFill.style.width = percentage + '%';
+        
+        // Update strength text and colors
+        if (score === 0) {
+            strengthFill.style.backgroundColor = '#dc3545';
+            strengthText.textContent = 'Enter a password';
+            strengthText.style.color = '#6c757d';
+        } else if (score < 3) {
+            strengthFill.style.backgroundColor = '#dc3545';
+            strengthText.textContent = 'Weak';
+            strengthText.style.color = '#dc3545';
+        } else if (score < 4) {
+            strengthFill.style.backgroundColor = '#ffc107';
+            strengthText.textContent = 'Fair';
+            strengthText.style.color = '#ffc107';
+        } else if (score < 5) {
+            strengthFill.style.backgroundColor = '#17a2b8';
+            strengthText.textContent = 'Good';
+            strengthText.style.color = '#17a2b8';
+        } else {
+            strengthFill.style.backgroundColor = '#28a745';
+            strengthText.textContent = 'Strong';
+            strengthText.style.color = '#28a745';
+        }
+        
+        return score === 5; // Return true if all requirements met
+    }
+    
+    // Password input event listener
+    document.getElementById('password').addEventListener('input', function() {
+        const password = this.value;
+        updatePasswordStrength(password);
+    });
+    
+    // Form validation - simplified to not prevent submission
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const password = document.getElementById('password').value;
+        const requirements = validatePasswordStrength(password);
+        const allRequirementsMet = Object.values(requirements).every(Boolean);
+        
+        if (!allRequirementsMet) {
+            // Show error but don't prevent submission - let server handle it
+            document.getElementById('password').classList.add('is-invalid');
+            // Remove the preventDefault to allow form submission
+        }
+    });
+
+    // Toggle password visibility
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const password = document.getElementById('password');
+        const icon = this.querySelector('i');
+        
+        if (password.type === 'password') {
+            password.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            password.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    });
+
+    // Style radio button labels
+    document.querySelectorAll('input[name="user_type"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Remove active class from all labels
+            document.querySelectorAll('label[for="student"], label[for="local"]').forEach(label => {
+                label.classList.remove('border-primary', 'bg-light');
+            });
+            
+            // Add active class to selected label
+            const label = document.querySelector(`label[for="${this.id}"]`);
+            if (label) {
+                label.classList.add('border-primary', 'bg-light');
+            }
+        });
+    });
+
+    // Handle user type selection to show/hide ID verification
+    document.querySelectorAll('input[name="user_type"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const idVerificationSection = document.getElementById('idVerificationSection');
+            const idDocumentInput = document.getElementById('idDocument');
+            
+            if (this.value === 'local') {
+                idVerificationSection.style.display = 'block';
+                idDocumentInput.required = true;
+            } else {
+                idVerificationSection.style.display = 'none';
+                idDocumentInput.required = false;
+            }
+        });
+    });
+
+    // Trigger change event on page load if radio is already selected
+    document.querySelectorAll('input[name="user_type"]:checked').forEach(radio => {
+        radio.dispatchEvent(new Event('change'));
+    });
+</script>
+{% endblock %}

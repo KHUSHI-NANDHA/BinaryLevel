@@ -1,0 +1,351 @@
+{% extends "base.html" %}
+
+{% block title %}Find Local Guides - LocalLink{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="dashboard-card">
+                {% if smart_matching %}
+                <h2 class="mb-3">
+                    <i class="fas fa-brain text-primary me-2"></i>Your Perfect Matches
+                </h2>
+                <p class="text-muted mb-4">Our AI algorithm has found the best local guides for you based on your preferences and cultural background.</p>
+                {% else %}
+                <h2 class="mb-3">
+                    <i class="fas fa-search me-2"></i>Find Local Guides
+                </h2>
+                <p class="text-muted mb-4">Connect with verified Indian locals in your city who can help you save money and adapt faster.</p>
+                {% endif %}
+                
+                <!-- Search and Filter -->
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <input type="text" class="form-control" id="search_locals" placeholder="Search by name, city, or expertise...">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select" id="city_filter">
+                            <option value="">All Cities</option>
+                            <option value="prague">Prague</option>
+                            <option value="budapest">Budapest</option>
+                            <option value="warsaw">Warsaw</option>
+                            <option value="bratislava">Bratislava</option>
+                            <option value="vilnius">Vilnius</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select" id="price_filter">
+                            <option value="">All Prices</option>
+                            <option value="standard">$2/2 hours</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-wrap gap-2">
+                        <button class="btn filter-btn active" data-filter="all">
+                            <i class="fas fa-globe me-1"></i>All Guides
+                        </button>
+                        <button class="btn filter-btn" data-filter="housing">
+                            <i class="fas fa-home me-1"></i>Housing
+                        </button>
+                        <button class="btn filter-btn" data-filter="transport">
+                            <i class="fas fa-bus me-1"></i>Transport
+                        </button>
+                        <button class="btn filter-btn" data-filter="groceries">
+                            <i class="fas fa-shopping-cart me-1"></i>Groceries
+                        </button>
+                        <button class="btn filter-btn" data-filter="cultural">
+                            <i class="fas fa-heart me-1"></i>Cultural
+                        </button>
+                        <button class="btn filter-btn" data-filter="general">
+                            <i class="fas fa-info-circle me-1"></i>General
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Local Guides Grid -->
+    <div class="row">
+        {% if smart_matching and matches %}
+            {% for match in matches %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="local-card card h-100 position-relative">
+                    <!-- Match Score Badge -->
+                    <div class="position-absolute top-0 end-0 m-3">
+                        <div class="match-score-badge">
+                            <span class="badge bg-success fs-6 px-3 py-2">
+                                <i class="fas fa-percentage me-1"></i>{{ "%.0f"|format(match.overall_score * 10) }}% Match
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="avatar bg-primary text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                <span class="fw-bold fs-5">{{ match.local_guide.full_name[0] }}</span>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="mb-1">{{ match.local_guide.full_name }}</h5>
+                                <div class="d-flex align-items-center mb-1">
+                                    <span class="verified-badge me-2">
+                                        <i class="fas fa-check me-1"></i>Verified
+                                    </span>
+                                    <small class="text-muted">
+                                        <i class="fas fa-map-marker-alt me-1"></i>{{ match.local_guide.city }}, {{ match.local_guide.country }}
+                                    </small>
+                                </div>
+                                <div class="text-warning">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <small class="text-muted ms-1">(4.8)</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p class="text-muted small mb-3">{{ match.local_guide.bio or "Experienced local guide helping students adapt to life abroad." }}</p>
+                        
+                        <!-- Match Details -->
+                        <div class="mb-3">
+                            <h6 class="small fw-bold mb-2">Why This Match Works:</h6>
+                            <div class="match-details">
+                                {% if match.detailed_scores.cultural_distance >= 7 %}
+                                <div class="match-item mb-1">
+                                    <i class="fas fa-globe text-success me-1"></i>
+                                    <small>Cultural Similarity: {{ "%.0f"|format(match.detailed_scores.cultural_distance * 10) }}%</small>
+                                </div>
+                                {% endif %}
+                                {% if match.detailed_scores.language >= 7 %}
+                                <div class="match-item mb-1">
+                                    <i class="fas fa-language text-info me-1"></i>
+                                    <small>Language Match: {{ "%.0f"|format(match.detailed_scores.language * 10) }}%</small>
+                                </div>
+                                {% endif %}
+                                {% if match.detailed_scores.field >= 7 %}
+                                <div class="match-item mb-1">
+                                    <i class="fas fa-graduation-cap text-warning me-1"></i>
+                                    <small>Field Match: {{ "%.0f"|format(match.detailed_scores.field * 10) }}%</small>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="price-tag">$2/2 hours</div>
+                            <div class="text-muted small">
+                                {% if local[6] == 1 %}
+                                <i class="fas fa-clock me-1"></i>Available Now
+                                {% elif local[7] == 'pending' %}
+                                <i class="fas fa-hourglass-half me-1"></i>Verification Pending
+                                {% else %}
+                                <i class="fas fa-exclamation-triangle me-1"></i>Not Verified
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            <a href="{{ url_for('book_session', local_id=match.local_guide.id) }}" class="btn btn-primary flex-grow-1">
+                                <i class="fas fa-calendar-plus me-1"></i>Book Session
+                            </a>
+                            <button class="btn btn-outline-secondary" title="Save to favorites">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <button class="btn btn-outline-info" title="Send message">
+                                <i class="fas fa-comment"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% elif locals %}
+            {% for local in locals %}
+            <div class="col-lg-4 col-md-6 mb-4 filterable-item" data-category="general">
+                <div class="local-card card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="avatar bg-primary text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                                <span class="fw-bold fs-5">{{ local[1][0] }}</span>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="mb-1">{{ local[1] }}</h5>
+                                <div class="d-flex align-items-center mb-1">
+                                    {% if local[6] == 1 %}
+                                    <span class="verified-badge me-2">
+                                        <i class="fas fa-check me-1"></i>Verified
+                                    </span>
+                                    {% elif local[7] == 'pending' %}
+                                    <span class="badge bg-warning text-dark me-2">
+                                        <i class="fas fa-clock me-1"></i>Pending Verification
+                                    </span>
+                                    {% else %}
+                                    <span class="badge bg-secondary me-2">
+                                        <i class="fas fa-exclamation-triangle me-1"></i>Not Verified
+                                    </span>
+                                    {% endif %}
+                                    <small class="text-muted">
+                                        <i class="fas fa-map-marker-alt me-1"></i>{{ local[2] }}, {{ local[3] }}
+                                    </small>
+                                </div>
+                                <div class="text-warning">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <small class="text-muted ms-1">(4.8)</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p class="text-muted small mb-3">{{ local[4] or "Experienced local guide helping students adapt to life abroad." }}</p>
+                        
+                        <div class="mb-3">
+                            <h6 class="small fw-bold mb-2">Specializations:</h6>
+                            <div class="d-flex flex-wrap gap-1">
+                                <span class="badge bg-light text-dark">Housing</span>
+                                <span class="badge bg-light text-dark">Transport</span>
+                                <span class="badge bg-light text-dark">Groceries</span>
+                                <span class="badge bg-light text-dark">Cultural</span>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="price-tag">$2/2 hours</div>
+                            <div class="text-muted small">
+                                {% if local[6] == 1 %}
+                                <i class="fas fa-clock me-1"></i>Available Now
+                                {% elif local[7] == 'pending' %}
+                                <i class="fas fa-hourglass-half me-1"></i>Verification Pending
+                                {% else %}
+                                <i class="fas fa-exclamation-triangle me-1"></i>Not Verified
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            {% if local[6] == 1 %}
+                            <a href="{{ url_for('book_session', local_id=local[0]) }}" class="btn btn-primary flex-grow-1">
+                                <i class="fas fa-calendar-plus me-1"></i>Book Session
+                            </a>
+                            {% else %}
+                            <button class="btn btn-secondary flex-grow-1" disabled>
+                                <i class="fas fa-lock me-1"></i>Verification Required
+                            </button>
+                            {% endif %}
+                            <button class="btn btn-outline-secondary" title="Save to favorites">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <button class="btn btn-outline-info" title="Send message">
+                                <i class="fas fa-comment"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <!-- Empty State -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body text-center py-5">
+                        <i class="fas fa-users text-muted display-4 mb-3"></i>
+                        <h5 class="text-muted">No local guides found</h5>
+                        <p class="text-muted mb-4">We're working on adding more verified local guides to your area.</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <button class="btn btn-primary" onclick="refreshPage()">
+                                <i class="fas fa-refresh me-2"></i>Refresh
+                            </button>
+                            <a href="#" class="btn btn-outline-secondary">
+                                <i class="fas fa-bell me-2"></i>Get Notified
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Load More -->
+    <div class="row">
+        <div class="col-12 text-center">
+            <button class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-plus me-2"></i>Load More Guides
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function refreshPage() {
+        window.location.reload();
+    }
+
+    // Enhanced search functionality
+    document.getElementById('search_locals').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const localCards = document.querySelectorAll('.local-card');
+        
+        localCards.forEach(card => {
+            const cardText = card.textContent.toLowerCase();
+            if (cardText.includes(searchTerm)) {
+                card.closest('.col-lg-4').style.display = 'block';
+            } else {
+                card.closest('.col-lg-4').style.display = 'none';
+            }
+        });
+    });
+
+    // City filter
+    document.getElementById('city_filter').addEventListener('change', function() {
+        const selectedCity = this.value.toLowerCase();
+        const localCards = document.querySelectorAll('.local-card');
+        
+        localCards.forEach(card => {
+            const cityText = card.textContent.toLowerCase();
+            if (!selectedCity || cityText.includes(selectedCity)) {
+                card.closest('.col-lg-4').style.display = 'block';
+            } else {
+                card.closest('.col-lg-4').style.display = 'none';
+            }
+        });
+    });
+
+    // Price filter
+    document.getElementById('price_filter').addEventListener('change', function() {
+        const priceRange = this.value;
+        const localCards = document.querySelectorAll('.local-card');
+        
+        localCards.forEach(card => {
+            let show = true;
+            
+            if (priceRange && priceRange !== 'standard') {
+                show = false;
+            }
+            
+            card.closest('.col-lg-4').style.display = show ? 'block' : 'none';
+        });
+    });
+</script>
+{% endblock %}

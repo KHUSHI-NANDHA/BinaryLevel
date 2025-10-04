@@ -1,0 +1,374 @@
+{% extends "base.html" %}
+
+{% block title %}Verification - LocalLink{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <!-- Header -->
+            <div class="text-center mb-5">
+                <h2 class="fw-bold mb-3">
+                    <i class="fas fa-shield-alt text-success me-2"></i>Verification Center
+                </h2>
+                <p class="text-muted">Complete your verification to start helping students and earning money</p>
+            </div>
+
+            <!-- Verification Status -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="verification-status status-pending me-3">
+                                    {% if status == 'approved' %}
+                                        <i class="fas fa-check me-1"></i>Approved
+                                    {% elif status == 'pending' %}
+                                        <i class="fas fa-clock me-1"></i>Pending Review
+                                    {% else %}
+                                        <i class="fas fa-times me-1"></i>Not Started
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">Overall Status: {{ status.title() if status else 'Not Started' }}</h5>
+                                    <p class="text-muted mb-0">Complete all steps to become verified</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Verification Steps -->
+            <div class="row">
+                <!-- Step 1: Identity Verification -->
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header d-flex align-items-center">
+                            <div class="step-icon bg-primary text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <span class="fw-bold">1</span>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">Identity Verification</h5>
+                                <small class="text-muted">Verify your identity with official documents</small>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="{{ url_for('upload_identity') }}" enctype="multipart/form-data">
+                                <div class="verification-step">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Upload ID Document</label>
+                                        <div class="upload-area border rounded p-4 text-center mb-3">
+                                            <i class="fas fa-cloud-upload-alt text-muted display-4 mb-2"></i>
+                                            <p class="text-muted mb-2">Upload your passport, driver's license, or national ID</p>
+                                            <input type="file" class="form-control" name="identity_document" accept="image/*,.pdf" required>
+                                            <div class="form-text">
+                                                <small>Supported formats: PNG, JPG, JPEG, GIF, BMP, PDF (Max 16MB)</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        <small>Your documents are encrypted and securely stored. We use industry-standard security measures and AI-powered verification.</small>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-transparent">
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="fas fa-upload me-2"></i>Submit Identity Verification
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: University/Employment Verification -->
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header d-flex align-items-center">
+                            <div class="step-icon bg-success text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <span class="fw-bold">2</span>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">University/Employment</h5>
+                                <small class="text-muted">Verify your academic or professional status</small>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="{{ url_for('upload_academic') }}" enctype="multipart/form-data">
+                                <div class="verification-step">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Verification Method</label>
+                                        <div class="row g-2">
+                                            <div class="col-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="verification_type" id="university" value="university">
+                                                    <label class="form-check-label w-100 p-2 border rounded text-center" for="university">
+                                                        <i class="fas fa-graduation-cap text-primary mb-1"></i>
+                                                        <div class="small fw-bold">University</div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="verification_type" id="employment" value="employment">
+                                                    <label class="form-check-label w-100 p-2 border rounded text-center" for="employment">
+                                                        <i class="fas fa-briefcase text-success mb-1"></i>
+                                                        <div class="small fw-bold">Employment</div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Upload Document</label>
+                                        <div class="upload-area border rounded p-4 text-center mb-3">
+                                            <i class="fas fa-file-upload text-muted display-4 mb-2"></i>
+                                            <p class="text-muted mb-2">Upload student ID, employment letter, or pay stub</p>
+                                            <input type="file" class="form-control" name="academic_document" accept="image/*,.pdf" required>
+                                            <div class="form-text">
+                                                <small>Supported formats: PNG, JPG, JPEG, GIF, BMP, PDF (Max 16MB)</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Official Email (Optional)</label>
+                                        <input type="email" class="form-control" name="official_email" placeholder="university@domain.edu or name@company.com">
+                                        <div class="form-text">
+                                            <small>We may contact your institution/employer for verification</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-transparent">
+                                    <button type="submit" class="btn btn-success w-100">
+                                        <i class="fas fa-upload me-2"></i>Submit Verification
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Proof of Residence -->
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header d-flex align-items-center">
+                            <div class="step-icon bg-info text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <span class="fw-bold">3</span>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">Proof of Residence</h5>
+                                <small class="text-muted">Verify you live in the city you're guiding for</small>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="verification-step">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Upload Document</label>
+                                    <div class="upload-area border rounded p-4 text-center mb-3">
+                                        <i class="fas fa-home text-muted display-4 mb-2"></i>
+                                        <p class="text-muted mb-2">Upload utility bill, lease agreement, or bank statement</p>
+                                        <input type="file" class="form-control" accept="image/*,.pdf">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Document Type</label>
+                                    <select class="form-select">
+                                        <option value="">Select document type</option>
+                                        <option value="utility">Utility Bill</option>
+                                        <option value="lease">Lease Agreement</option>
+                                        <option value="bank">Bank Statement</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="alert alert-warning">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    <small>Document must be recent (within 3 months) and show your current address.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <button class="btn btn-info w-100">
+                                <i class="fas fa-upload me-2"></i>Submit Residence Proof
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Video Verification -->
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header d-flex align-items-center">
+                            <div class="step-icon bg-warning text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <span class="fw-bold">4</span>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">Video Verification</h5>
+                                <small class="text-muted">Record a short introduction video</small>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="verification-step">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Record Introduction Video</label>
+                                    <div class="video-area border rounded p-4 text-center mb-3">
+                                        <i class="fas fa-video text-muted display-4 mb-2"></i>
+                                        <p class="text-muted mb-2">Record a 2-3 minute introduction video</p>
+                                        <button class="btn btn-outline-primary mb-2">
+                                            <i class="fas fa-video me-2"></i>Record Video
+                                        </button>
+                                        <p class="small text-muted mb-0">or upload a pre-recorded video</p>
+                                        <input type="file" class="form-control mt-2" accept="video/*">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Video Guidelines</label>
+                                    <ul class="list-unstyled small text-muted">
+                                        <li class="mb-1">• Speak clearly and introduce yourself</li>
+                                        <li class="mb-1">• Mention your city and how long you've lived there</li>
+                                        <li class="mb-1">• Explain how you can help students</li>
+                                        <li class="mb-1">• Keep it professional and friendly</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <button class="btn btn-warning w-100">
+                                <i class="fas fa-video me-2"></i>Submit Video
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Verification Progress -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="fas fa-chart-line me-2"></i>Verification Progress
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="progress mb-3" style="height: 20px;">
+                                <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                    25% Complete
+                                </div>
+                            </div>
+                            <div class="row text-center">
+                                <div class="col-3">
+                                    <div class="verification-status-item">
+                                        <i class="fas fa-check-circle text-primary mb-2" style="font-size: 1.5rem;"></i>
+                                        <div class="small fw-bold">Basic Profile</div>
+                                        <div class="small text-success">Completed</div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="verification-status-item">
+                                        <i class="fas fa-clock text-warning mb-2" style="font-size: 1.5rem;"></i>
+                                        <div class="small fw-bold">Identity</div>
+                                        <div class="small text-warning">Pending</div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="verification-status-item">
+                                        <i class="fas fa-clock text-warning mb-2" style="font-size: 1.5rem;"></i>
+                                        <div class="small fw-bold">University/Job</div>
+                                        <div class="small text-warning">Pending</div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="verification-status-item">
+                                        <i class="fas fa-clock text-warning mb-2" style="font-size: 1.5rem;"></i>
+                                        <div class="small fw-bold">Video</div>
+                                        <div class="small text-warning">Pending</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Help Section -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="fw-bold mb-3">Need Help with Verification?</h5>
+                            <p class="text-muted mb-4">Our support team is here to help you complete the verification process.</p>
+                            <div class="d-flex justify-content-center gap-3">
+                                <a href="#" class="btn btn-outline-primary">
+                                    <i class="fas fa-question-circle me-2"></i>FAQ
+                                </a>
+                                <a href="#" class="btn btn-outline-success">
+                                    <i class="fas fa-comments me-2"></i>Contact Support
+                                </a>
+                                <a href="#" class="btn btn-outline-info">
+                                    <i class="fas fa-video me-2"></i>Video Tutorial
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Style radio button labels
+    document.querySelectorAll('input[name="verification_type"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Remove active class from all labels
+            document.querySelectorAll('label[for="university"], label[for="employment"]').forEach(label => {
+                label.classList.remove('border-primary', 'bg-light');
+            });
+            
+            // Add active class to selected label
+            const label = document.querySelector(`label[for="${this.id}"]`);
+            if (label) {
+                label.classList.add('border-primary', 'bg-light');
+            }
+        });
+    });
+
+    // File upload preview
+    document.querySelectorAll('input[type="file"]').forEach(input => {
+        input.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const uploadArea = this.parentNode;
+                uploadArea.innerHTML = `
+                    <i class="fas fa-check-circle text-success display-4 mb-2"></i>
+                    <p class="text-success mb-2">File uploaded: ${file.name}</p>
+                    <button class="btn btn-sm btn-outline-danger" onclick="removeFile(this)">
+                        <i class="fas fa-times me-1"></i>Remove
+                    </button>
+                `;
+            }
+        });
+    });
+
+    function removeFile(button) {
+        const uploadArea = button.parentNode;
+        uploadArea.innerHTML = `
+            <i class="fas fa-cloud-upload-alt text-muted display-4 mb-2"></i>
+            <p class="text-muted mb-2">Upload your document</p>
+            <input type="file" class="form-control" accept="image/*,.pdf">
+        `;
+    }
+
+    // Video recording placeholder
+    document.querySelectorAll('button').forEach(button => {
+        if (button.textContent.includes('Record Video') || button.textContent.includes('Take Photo')) {
+            button.addEventListener('click', function() {
+                alert('This feature would integrate with your device camera. For demo purposes, please upload a file instead.');
+            });
+        }
+    });
+</script>
+{% endblock %}

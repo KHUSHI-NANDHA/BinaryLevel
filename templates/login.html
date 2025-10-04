@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Login - LocalLink{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-custom border-radius-custom">
+                <div class="card-header text-center py-4">
+                    <h3 class="mb-0">
+                        <i class="fas fa-sign-in-alt me-2"></i>Welcome Back
+                    </h3>
+                    <p class="mb-0 mt-2 opacity-75">Sign in to your LocalLink account</p>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">
+                                <i class="fas fa-user me-1"></i>Username
+                            </label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid username.
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="password" class="form-label">
+                                <i class="fas fa-lock me-1"></i>Password
+                            </label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="password" name="password" required>
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="invalid-feedback">
+                                Please provide a valid password.
+                            </div>
+                        </div>
+
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center">
+                        <p class="mb-0">
+                            Don't have an account? 
+                            <a href="{{ url_for('register') }}" class="text-decoration-none fw-bold">
+                                Sign up here
+                            </a>
+                        </p>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="text-center">
+                        <p class="small text-muted mb-3">Demo Accounts</p>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <button class="btn btn-outline-primary btn-sm w-100" onclick="loginDemoStudent()">
+                                    <i class="fas fa-user-graduate me-1"></i>Student Demo
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-outline-success btn-sm w-100" onclick="loginDemoLocal()">
+                                    <i class="fas fa-map-marker-alt me-1"></i>Local Demo
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="d-flex justify-content-center gap-2">
+                                <a href="{{ url_for('register') }}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-user-graduate me-1"></i>Quick Student Login
+                                </a>
+                                <a href="{{ url_for('register') }}" class="btn btn-success btn-sm">
+                                    <i class="fas fa-map-marker-alt me-1"></i>Quick Local Login
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Toggle password visibility
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const password = document.getElementById('password');
+        const icon = this.querySelector('i');
+        
+        if (password.type === 'password') {
+            password.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            password.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    });
+
+    // Demo account login functions
+    function loginDemoStudent() {
+        // Fill the form
+        document.getElementById('username').value = 'student_demo';
+        document.getElementById('password').value = 'DemoPass123!';
+        
+        // Submit the form
+        document.querySelector('form').submit();
+    }
+
+    function loginDemoLocal() {
+        // Fill the form
+        document.getElementById('username').value = 'local_demo';
+        document.getElementById('password').value = 'DemoPass123!';
+        
+        // Submit the form
+        document.querySelector('form').submit();
+    }
+</script>
+{% endblock %}

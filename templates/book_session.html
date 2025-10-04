@@ -1,0 +1,278 @@
+{% extends "base.html" %}
+
+{% block title %}Book Session - LocalLink{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Booking Form -->
+            <div class="card shadow-custom border-radius-custom">
+                <div class="card-header">
+                    <h4 class="mb-0">
+                        <i class="fas fa-calendar-plus me-2"></i>Book a Session
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" class="needs-validation" novalidate>
+                        <!-- Session Type -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">What type of help do you need?</label>
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="session_type" id="housing" value="housing" required>
+                                        <label class="form-check-label w-100 p-3 border rounded-3 text-center" for="housing">
+                                            <i class="fas fa-home text-primary display-6 mb-2"></i>
+                                            <div class="fw-bold">Housing</div>
+                                            <small class="text-muted">Find affordable accommodation</small>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="session_type" id="transport" value="transport" required>
+                                        <label class="form-check-label w-100 p-3 border rounded-3 text-center" for="transport">
+                                            <i class="fas fa-bus text-success display-6 mb-2"></i>
+                                            <div class="fw-bold">Transport</div>
+                                            <small class="text-muted">Public transport & commuting</small>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="session_type" id="groceries" value="groceries" required>
+                                        <label class="form-check-label w-100 p-3 border rounded-3 text-center" for="groceries">
+                                            <i class="fas fa-shopping-cart text-info display-6 mb-2"></i>
+                                            <div class="fw-bold">Groceries</div>
+                                            <small class="text-muted">Shopping & essentials</small>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-2 mt-2">
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="session_type" id="cultural" value="cultural" required>
+                                        <label class="form-check-label w-100 p-3 border rounded-3 text-center" for="cultural">
+                                            <i class="fas fa-heart text-danger display-6 mb-2"></i>
+                                            <div class="fw-bold">Cultural</div>
+                                            <small class="text-muted">Social norms & adaptation</small>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="session_type" id="general" value="general" required>
+                                        <label class="form-check-label w-100 p-3 border rounded-3 text-center" for="general">
+                                            <i class="fas fa-info-circle text-warning display-6 mb-2"></i>
+                                            <div class="fw-bold">General</div>
+                                            <small class="text-muted">General guidance & tips</small>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="session_type" id="mobile" value="mobile" required>
+                                        <label class="form-check-label w-100 p-3 border rounded-3 text-center" for="mobile">
+                                            <i class="fas fa-mobile-alt text-secondary display-6 mb-2"></i>
+                                            <div class="fw-bold">Mobile/Data</div>
+                                            <small class="text-muted">Plans & connectivity</small>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Duration -->
+                        <div class="mb-4">
+                            <label for="duration" class="form-label fw-bold">Session Duration</label>
+                            <select class="form-select" id="duration" name="duration" required>
+                                <option value="">Select duration</option>
+                                <option value="2">2 hours - $2</option>
+                                <option value="4">4 hours - $4</option>
+                                <option value="6">6 hours - $6</option>
+                                <option value="8">8 hours - $8</option>
+                                <option value="10">10 hours - $10</option>
+                                <option value="12">12 hours - $12</option>
+                            </select>
+                        </div>
+
+                        <!-- Date and Time -->
+                        <div class="mb-4">
+                            <label for="scheduled_at" class="form-label fw-bold">Preferred Date & Time</label>
+                            <input type="datetime-local" class="form-control" id="scheduled_at" name="scheduled_at" required>
+                            <div class="form-text">
+                                <i class="fas fa-info-circle me-1"></i>
+                                The local guide will confirm the exact time based on availability.
+                            </div>
+                        </div>
+
+                        <!-- Additional Notes -->
+                        <div class="mb-4">
+                            <label for="notes" class="form-label fw-bold">Additional Notes (Optional)</label>
+                            <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Tell the local guide about your specific needs, questions, or preferences..."></textarea>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-calendar-check me-2"></i>Book Session
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <!-- Local Guide Info -->
+            <div class="card shadow-custom border-radius-custom mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Your Local Guide</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="avatar bg-primary text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                            <span class="fw-bold fs-5">{{ local[1][0] }}</span>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">{{ local[1] }}</h6>
+                            <span class="verified-badge">
+                                <i class="fas fa-check me-1"></i>Verified
+                            </span>
+                        </div>
+                    </div>
+                    <p class="text-muted small mb-3">
+                        <i class="fas fa-map-marker-alt me-1"></i>{{ local[2] }}, {{ local[3] }}
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="price-tag">$2/2 hours</div>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <small class="text-muted ms-1">(4.8)</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session Summary -->
+            <div class="card shadow-custom border-radius-custom">
+                <div class="card-header">
+                    <h5 class="mb-0">Session Summary</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Rate:</span>
+                        <span>$2 per 2 hours</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Duration:</span>
+                        <span id="summary_duration">-</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Service Fee (5%):</span>
+                        <span id="summary_service_fee">-</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between fw-bold">
+                        <span>Total:</span>
+                        <span id="summary_total">-</span>
+                    </div>
+                    <div class="form-text mt-3">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Payment will be processed after session completion.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Safety & Trust -->
+            <div class="card shadow-custom border-radius-custom mt-4">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">
+                        <i class="fas fa-shield-alt text-success me-2"></i>Safety & Trust
+                    </h6>
+                    <ul class="list-unstyled small">
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Identity verified
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            University/Employment verified
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Video verification completed
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Background check passed
+                        </li>
+                        <li class="mb-0">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Secure payment processing
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Update session summary when duration changes
+    document.getElementById('duration').addEventListener('change', function() {
+        const duration = parseInt(this.value);
+        const ratePer2Hours = 2; // $2 per 2 hours
+        
+        if (duration) {
+            const subtotal = (duration / 2) * ratePer2Hours;
+            const serviceFee = subtotal * 0.05;
+            const total = subtotal + serviceFee;
+            
+            document.getElementById('summary_duration').textContent = duration + ' hour' + (duration > 1 ? 's' : '');
+            document.getElementById('summary_service_fee').textContent = '$' + serviceFee.toFixed(2);
+            document.getElementById('summary_total').textContent = '$' + total.toFixed(2);
+        } else {
+            document.getElementById('summary_duration').textContent = '-';
+            document.getElementById('summary_service_fee').textContent = '-';
+            document.getElementById('summary_total').textContent = '-';
+        }
+    });
+
+    // Style radio button labels
+    document.querySelectorAll('input[name="session_type"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Remove active class from all labels
+            document.querySelectorAll('label[for^="housing"], label[for^="transport"], label[for^="groceries"], label[for^="cultural"], label[for^="general"], label[for^="mobile"]').forEach(label => {
+                label.classList.remove('border-primary', 'bg-light');
+            });
+            
+            // Add active class to selected label
+            const label = document.querySelector(`label[for="${this.id}"]`);
+            if (label) {
+                label.classList.add('border-primary', 'bg-light');
+            }
+        });
+    });
+
+    // Set minimum date to today
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    const dateInput = document.getElementById('scheduled_at');
+    dateInput.min = tomorrow.toISOString().slice(0, 16);
+    
+    // Set default date to tomorrow at 10 AM
+    const defaultDate = new Date(tomorrow);
+    defaultDate.setHours(10, 0);
+    dateInput.value = defaultDate.toISOString().slice(0, 16);
+</script>
+{% endblock %}

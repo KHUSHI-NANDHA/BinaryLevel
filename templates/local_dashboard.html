@@ -1,0 +1,260 @@
+{% extends "base.html" %}
+
+{% block title %}Local Guide Dashboard - LocalLink{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="dashboard-card">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2 class="mb-2">
+                            <i class="fas fa-map-marker-alt text-success me-2"></i>
+                            Welcome back, {{ session.full_name }}!
+                        </h2>
+                        <p class="text-muted mb-0">Help students save money and adapt faster in your city.</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <a href="{{ url_for('verification') }}" class="btn btn-success btn-lg">
+                            <i class="fas fa-shield-alt me-2"></i>Verification Status
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="dashboard-stat">
+                <i class="fas fa-calendar-check text-primary"></i>
+                <h3>{{ sessions_count }}</h3>
+                <p class="text-muted">Sessions Completed</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="dashboard-stat">
+                <i class="fas fa-dollar-sign text-success"></i>
+                <h3>${{ "%.0f"|format(total_earnings) }}</h3>
+                <p class="text-muted">Total Earnings</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="dashboard-stat">
+                <i class="fas fa-star text-warning"></i>
+                <h3>{{ "%.1f"|format(avg_rating) }}</h3>
+                <p class="text-muted">Average Rating</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="dashboard-stat">
+                <i class="fas fa-clock text-info"></i>
+                <h3>{{ hours_helped }}</h3>
+                <p class="text-muted">Hours Helped</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Profile Status -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-user-check me-2"></i>Profile Status
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="verification-item d-flex align-items-center mb-3">
+                                <div class="verification-icon bg-success text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Basic Profile</h6>
+                                    <small class="text-success">Completed</small>
+                                </div>
+                            </div>
+                            <div class="verification-item d-flex align-items-center mb-3">
+                                {% if local_profile[3] %}
+                                    <div class="verification-icon bg-success text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Identity Verification</h6>
+                                        <small class="text-success">Completed</small>
+                                    </div>
+                                {% else %}
+                                    <div class="verification-icon bg-warning text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Identity Verification</h6>
+                                        <small class="text-warning">Pending</small>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="verification-item d-flex align-items-center mb-3">
+                                {% if local_profile[4] == 'approved' %}
+                                    <div class="verification-icon bg-success text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">University/Employment</h6>
+                                        <small class="text-success">Completed</small>
+                                    </div>
+                                {% else %}
+                                    <div class="verification-icon bg-warning text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">University/Employment</h6>
+                                        <small class="text-warning">Pending</small>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="verification-item d-flex align-items-center mb-3">
+                                {% if local_profile[4] == 'approved' %}
+                                    <div class="verification-icon bg-success text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Video Verification</h6>
+                                        <small class="text-success">Completed</small>
+                                    </div>
+                                {% else %}
+                                    <div class="verification-icon bg-warning text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Video Verification</h6>
+                                        <small class="text-warning">Pending</small>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <a href="{{ url_for('verification') }}" class="btn btn-success">
+                            <i class="fas fa-arrow-right me-2"></i>Complete Verification
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Sessions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i class="fas fa-history me-2"></i>Recent Sessions
+                    </h5>
+                    <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+                </div>
+                <div class="card-body">
+                    <div class="text-center py-5">
+                        <i class="fas fa-calendar-times text-muted display-4 mb-3"></i>
+                        <h5 class="text-muted">No sessions yet</h5>
+                        <p class="text-muted">Complete your verification to start receiving booking requests!</p>
+                        <a href="{{ url_for('verification') }}" class="btn btn-primary">
+                            <i class="fas fa-shield-alt me-2"></i>Complete Verification
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earnings Overview -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-chart-pie me-2"></i>Earnings Overview
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="earning-card p-3 border rounded-3 text-center">
+                                <i class="fas fa-wallet text-primary display-6 mb-2"></i>
+                                <h4 class="fw-bold">$0</h4>
+                                <p class="text-muted mb-0">This Month</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="earning-card p-3 border rounded-3 text-center">
+                                <i class="fas fa-calendar-week text-success display-6 mb-2"></i>
+                                <h4 class="fw-bold">$0</h4>
+                                <p class="text-muted mb-0">This Week</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="earning-card p-3 border rounded-3 text-center">
+                                <i class="fas fa-money-bill-wave text-warning display-6 mb-2"></i>
+                                <h4 class="fw-bold">$0</h4>
+                                <p class="text-muted mb-0">Pending</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tips for Local Guides -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-lightbulb me-2"></i>Tips for Success
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="tip-card p-3 border rounded-3 h-100">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-star text-warning me-2"></i>
+                                    <h6 class="mb-0">Build Your Reputation</h6>
+                                </div>
+                                <p class="small text-muted mb-0">Provide excellent service to get great reviews and more bookings.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="tip-card p-3 border rounded-3 h-100">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-clock text-primary me-2"></i>
+                                    <h6 class="mb-0">Be Responsive</h6>
+                                </div>
+                                <p class="small text-muted mb-0">Respond to booking requests quickly to increase your chances of getting selected.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="tip-card p-3 border rounded-3 h-100">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-heart text-danger me-2"></i>
+                                    <h6 class="mb-0">Be Genuine</h6>
+                                </div>
+                                <p class="small text-muted mb-0">Share your real experiences and authentic local knowledge to help students.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
